@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Solar Interativo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fundo estrelado -->
+    <div id="stars-container"></div>
+    
+    <!-- Container principal do sistema solar -->
+    <div class="solar-system">
+        <!-- Sol -->
+        <div class="sun"></div>
+        
+        <!-- Órbitas e planetas -->
+        <!-- Mercúrio -->
+        <div class="orbit orbit-mercury" data-planet="mercury">
+            <div class="planet mercury" data-name="Mercúrio"></div>
+        </div>
+        
+        <!-- Vênus -->
+        <div class="orbit orbit-venus" data-planet="venus">
+            <div class="planet venus" data-name="Vênus"></div>
+        </div>
+        
+        <!-- Terra com Lua -->
+        <div class="orbit orbit-earth" data-planet="earth">
+            <div class="planet earth" data-name="Terra">
+                <!-- Lua orbitando a Terra -->
+                <div class="moon-orbit">
+                    <div class="moon"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Marte -->
+        <div class="orbit orbit-mars" data-planet="mars">
+            <div class="planet mars" data-name="Marte"></div>
+        </div>
+        
+        <!-- Cinturão de asteroides -->
+        <div class="asteroid-belt"></div>
+        
+        <!-- Júpiter -->
+        <div class="orbit orbit-jupiter" data-planet="jupiter">
+            <div class="planet jupiter" data-name="Júpiter"></div>
+        </div>
+        
+        <!-- Saturno -->
+        <div class="orbit orbit-saturn" data-planet="saturn">
+            <div class="planet saturn" data-name="Saturno">
+                <div class="rings"></div>
+            </div>
+        </div>
+        
+        <!-- Urano -->
+        <div class="orbit orbit-uranus" data-planet="uranus">
+            <div class="planet uranus" data-name="Urano"></div>
+        </div>
+        
+        <!-- Netuno -->
+        <div class="orbit orbit-neptune" data-planet="neptune">
+            <div class="planet neptune" data-name="Netuno"></div>
+        </div>
+    </div>
+    
+    <!-- Painel de informações do planeta -->
+    <div id="info-panel" class="info-panel hidden">
+        <button class="close-btn" onclick="closeInfoPanel()">&times;</button>
+        <h2 id="planet-name"></h2>
+        <div class="info-content">
+            <p><strong>Distância do Sol:</strong> <span id="planet-distance"></span></p>
+            <p><strong>Diâmetro:</strong> <span id="planet-diameter"></span></p>
+            <p><strong>Período orbital:</strong> <span id="planet-period"></span></p>
+            <p class="curiosity"><strong>💡 Curiosidade:</strong> <span id="planet-curiosity"></span></p>
+        </div>
+    </div>
+    
+    <!-- Controles -->
+    <div class="controls">
+        <button id="btn-pause" class="control-btn" onclick="toggleAnimation()">
+            <span class="icon">⏸️</span> Pausar
+        </button>
+        <div class="speed-controls">
+            <button class="control-btn speed-btn" onclick="setSpeed('slow')">Lenta</button>
+            <button class="control-btn speed-btn active" onclick="setSpeed('normal')">Normal</button>
+            <button class="control-btn speed-btn" onclick="setSpeed('fast')">Rápida</button>
+        </div>
+    </div>
+    
+    <!-- Legenda -->
+    <div class="legend">
+        <p>🖱️ Clique em um planeta para ver informações</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
