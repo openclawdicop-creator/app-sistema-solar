@@ -9,64 +9,66 @@
 <body>
     <!-- Fundo estrelado -->
     <div id="stars-container"></div>
-    
-    <!-- Container principal do sistema solar -->
-    <div class="solar-system">
-        <!-- Sol -->
-        <div class="sun"></div>
-        
-        <!-- Órbitas e planetas -->
-        <!-- Mercúrio -->
-        <div class="orbit orbit-mercury" data-planet="mercury">
-            <div class="planet mercury" data-name="Mercúrio"></div>
-        </div>
-        
-        <!-- Vênus -->
-        <div class="orbit orbit-venus" data-planet="venus">
-            <div class="planet venus" data-name="Vênus"></div>
-        </div>
-        
-        <!-- Terra com Lua -->
-        <div class="orbit orbit-earth" data-planet="earth">
-            <div class="planet earth" data-name="Terra">
-                <!-- Lua orbitando a Terra -->
-                <div class="moon-orbit">
-                    <div class="moon"></div>
+
+    <!-- Container principal do sistema solar com transformações 3D -->
+    <div id="solar-system-wrapper" class="solar-system-wrapper">
+        <div class="solar-system">
+            <!-- Sol -->
+            <div class="sun"></div>
+
+            <!-- Órbitas e planetas -->
+            <!-- Mercúrio -->
+            <div class="orbit orbit-mercury" data-planet="mercury">
+                <div class="planet mercury" data-name="Mercúrio"></div>
+            </div>
+
+            <!-- Vênus -->
+            <div class="orbit orbit-venus" data-planet="venus">
+                <div class="planet venus" data-name="Vênus"></div>
+            </div>
+
+            <!-- Terra com Lua -->
+            <div class="orbit orbit-earth" data-planet="earth">
+                <div class="planet earth" data-name="Terra">
+                    <!-- Lua orbitando a Terra -->
+                    <div class="moon-orbit">
+                        <div class="moon"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Marte -->
-        <div class="orbit orbit-mars" data-planet="mars">
-            <div class="planet mars" data-name="Marte"></div>
-        </div>
-        
-        <!-- Cinturão de asteroides -->
-        <div class="asteroid-belt"></div>
-        
-        <!-- Júpiter -->
-        <div class="orbit orbit-jupiter" data-planet="jupiter">
-            <div class="planet jupiter" data-name="Júpiter"></div>
-        </div>
-        
-        <!-- Saturno -->
-        <div class="orbit orbit-saturn" data-planet="saturn">
-            <div class="planet saturn" data-name="Saturno">
-                <div class="rings"></div>
+
+            <!-- Marte -->
+            <div class="orbit orbit-mars" data-planet="mars">
+                <div class="planet mars" data-name="Marte"></div>
+            </div>
+
+            <!-- Cinturão de asteroides -->
+            <div class="asteroid-belt"></div>
+
+            <!-- Júpiter -->
+            <div class="orbit orbit-jupiter" data-planet="jupiter">
+                <div class="planet jupiter" data-name="Júpiter"></div>
+            </div>
+
+            <!-- Saturno -->
+            <div class="orbit orbit-saturn" data-planet="saturn">
+                <div class="planet saturn" data-name="Saturno">
+                    <div class="rings"></div>
+                </div>
+            </div>
+
+            <!-- Urano -->
+            <div class="orbit orbit-uranus" data-planet="uranus">
+                <div class="planet uranus" data-name="Urano"></div>
+            </div>
+
+            <!-- Netuno -->
+            <div class="orbit orbit-neptune" data-planet="neptune">
+                <div class="planet neptune" data-name="Netuno"></div>
             </div>
         </div>
-        
-        <!-- Urano -->
-        <div class="orbit orbit-uranus" data-planet="uranus">
-            <div class="planet uranus" data-name="Urano"></div>
-        </div>
-        
-        <!-- Netuno -->
-        <div class="orbit orbit-neptune" data-planet="neptune">
-            <div class="planet neptune" data-name="Netuno"></div>
-        </div>
     </div>
-    
+
     <!-- Painel de informações do planeta -->
     <div id="info-panel" class="info-panel hidden">
         <button class="close-btn" onclick="closeInfoPanel()">&times;</button>
@@ -78,8 +80,8 @@
             <p class="curiosity"><strong>💡 Curiosidade:</strong> <span id="planet-curiosity"></span></p>
         </div>
     </div>
-    
-    <!-- Controles -->
+
+    <!-- Controles de animação (parte inferior central) -->
     <div class="controls">
         <button id="btn-pause" class="control-btn" onclick="toggleAnimation()">
             <span class="icon">⏸️</span> Pausar
@@ -90,7 +92,44 @@
             <button class="control-btn speed-btn" onclick="setSpeed('fast')">Rápida</button>
         </div>
     </div>
-    
+
+    <!-- Controles de Zoom e Rotação (parte inferior direita) -->
+    <div class="view-controls">
+        <!-- Zoom -->
+        <div class="control-group zoom-controls">
+            <span class="control-label">Zoom</span>
+            <div class="zoom-buttons">
+                <button class="view-btn" onclick="adjustZoom(-0.1)" title="Diminuir zoom">−</button>
+                <span id="zoom-level" class="control-value">100%</span>
+                <button class="view-btn" onclick="adjustZoom(0.1)" title="Aumentar zoom">+</button>
+            </div>
+        </div>
+
+        <!-- Ângulo X -->
+        <div class="control-group angle-controls">
+            <span class="control-label">Inclinação X</span>
+            <input type="range" id="angle-x" class="angle-slider" min="-45" max="45" value="0" oninput="updateRotation()">
+            <span id="angle-x-value" class="control-value">0°</span>
+        </div>
+
+        <!-- Ângulo Y -->
+        <div class="control-group angle-controls">
+            <span class="control-label">Rotação Y</span>
+            <input type="range" id="angle-y" class="angle-slider" min="0" max="360" value="0" oninput="updateRotation()">
+            <span id="angle-y-value" class="control-value">0°</span>
+        </div>
+
+        <!-- Reset -->
+        <button class="view-btn reset-btn" onclick="resetView()" title="Voltar à visão padrão">
+            🔄 Reset
+        </button>
+
+        <!-- Dica de drag -->
+        <div class="drag-hint">
+            🖱️ Arraste para rotacionar
+        </div>
+    </div>
+
     <!-- Legenda -->
     <div class="legend">
         <p>🖱️ Clique em um planeta para ver informações</p>

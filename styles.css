@@ -43,8 +43,30 @@ body {
 }
 
 /* ============================================
-   SISTEMA SOLAR
+   SISTEMA SOLAR - WRAPPER 3D
    ============================================ */
+.solar-system-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    perspective: 1000px;
+    cursor: grab;
+}
+
+.solar-system-wrapper:active {
+    cursor: grabbing;
+}
+
+.solar-system-wrapper.dragging {
+    cursor: grabbing;
+}
+
 .solar-system {
     position: relative;
     width: 100vw;
@@ -52,7 +74,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
 }
 
 /* ============================================
@@ -64,7 +87,7 @@ body {
     height: 80px;
     background: radial-gradient(circle at 30% 30%, #fff5e6 0%, #ffcc00 20%, #ff9500 50%, #ff6600 80%, #cc3300 100%);
     border-radius: 50%;
-    box-shadow: 
+    box-shadow:
         0 0 30px #ff9500,
         0 0 60px #ff6600,
         0 0 100px rgba(255, 100, 0, 0.5),
@@ -74,15 +97,15 @@ body {
 }
 
 @keyframes sunPulse {
-    0%, 100% { 
-        box-shadow: 
+    0%, 100% {
+        box-shadow:
             0 0 30px #ff9500,
             0 0 60px #ff6600,
             0 0 100px rgba(255, 100, 0, 0.5),
             0 0 150px rgba(255, 100, 0, 0.3);
     }
-    50% { 
-        box-shadow: 
+    50% {
+        box-shadow:
             0 0 40px #ff9500,
             0 0 80px #ff6600,
             0 0 130px rgba(255, 100, 0, 0.6),
@@ -169,7 +192,7 @@ body {
 .earth {
     width: 20px;
     height: 20px;
-    background: 
+    background:
         radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%),
         radial-gradient(circle at 70% 70%, #1a5c1a 0%, #2d8f2d 30%, #4da6ff 40%, #0066cc 70%, #003d7a 100%);
     box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
@@ -217,16 +240,16 @@ body {
 .jupiter {
     width: 45px;
     height: 45px;
-    background: 
-        linear-gradient(180deg, 
-            #d4a574 0%, 
-            #c4956a 15%, 
-            #8b7355 25%, 
-            #d4a574 35%, 
-            #a0826d 50%, 
-            #d4a574 65%, 
-            #8b7355 75%, 
-            #c4956a 85%, 
+    background:
+        linear-gradient(180deg,
+            #d4a574 0%,
+            #c4956a 15%,
+            #8b7355 25%,
+            #d4a574 35%,
+            #a0826d 50%,
+            #d4a574 65%,
+            #8b7355 75%,
+            #c4956a 85%,
             #d4a574 100%
         );
     box-shadow: 0 0 15px rgba(212, 165, 116, 0.5);
@@ -345,7 +368,7 @@ body {
     padding: 25px;
     min-width: 320px;
     max-width: 400px;
-    box-shadow: 
+    box-shadow:
         0 0 30px rgba(0, 100, 255, 0.3),
         0 10px 40px rgba(0, 0, 0, 0.5);
     z-index: 1000;
@@ -404,7 +427,7 @@ body {
 }
 
 /* ============================================
-   CONTROLES
+   CONTROLES DE ANIMAÇÃO
    ============================================ */
 .controls {
     position: fixed;
@@ -462,6 +485,156 @@ body {
 }
 
 /* ============================================
+   CONTROLES DE VISÃO (ZOOM E ROTAÇÃO)
+   ============================================ */
+.view-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(10, 10, 30, 0.85);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(100, 150, 255, 0.2);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    min-width: 180px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.control-label {
+    font-size: 0.75rem;
+    color: #81d4fa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-value {
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 600;
+    min-width: 45px;
+    text-align: center;
+}
+
+/* Zoom Controls */
+.zoom-controls {
+    align-items: center;
+}
+
+.zoom-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.view-btn {
+    background: linear-gradient(135deg, #1a237e 0%, #0d1642 100%);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-btn:hover {
+    background: linear-gradient(135deg, #283593 0%, #1a237e 100%);
+    box-shadow: 0 0 10px rgba(100, 150, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.view-btn:active {
+    transform: scale(0.95);
+}
+
+/* Angle Controls */
+.angle-controls {
+    align-items: stretch;
+}
+
+.angle-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(100, 150, 255, 0.2);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.angle-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #4fc3f7 0%, #0288d1 100%);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.5);
+    transition: transform 0.2s ease;
+}
+
+.angle-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.angle-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #4fc3f7 0%, #0288d1 100%);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.5);
+}
+
+.angle-controls .control-value {
+    text-align: right;
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+/* Reset Button */
+.reset-btn {
+    width: 100%;
+    height: 36px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 5px;
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.4);
+}
+
+/* Drag Hint */
+.drag-hint {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* ============================================
    LEGENDA
    ============================================ */
 .legend {
@@ -487,7 +660,7 @@ body {
         width: 60px;
         height: 60px;
     }
-    
+
     .orbit-mercury { width: 100px; height: 100px; }
     .orbit-venus { width: 140px; height: 140px; }
     .orbit-earth { width: 180px; height: 180px; }
@@ -496,7 +669,7 @@ body {
     .orbit-saturn { width: 400px; height: 400px; }
     .orbit-uranus { width: 480px; height: 480px; }
     .orbit-neptune { width: 550px; height: 550px; }
-    
+
     .mercury { width: 8px; height: 8px; }
     .venus { width: 12px; height: 12px; }
     .earth { width: 14px; height: 14px; }
@@ -505,35 +678,69 @@ body {
     .saturn { width: 28px; height: 28px; }
     .uranus { width: 20px; height: 20px; }
     .neptune { width: 18px; height: 18px; }
-    
+
     .rings {
         width: 50px;
         height: 50px;
         border-width: 5px;
     }
-    
+
     .moon-orbit {
         width: 25px;
         height: 25px;
     }
-    
+
     .moon {
         width: 3px;
         height: 3px;
     }
-    
+
     .controls {
         flex-direction: column;
         gap: 10px;
         padding: 12px 20px;
+        bottom: auto;
+        top: 70px;
+        left: 20px;
+        transform: none;
     }
-    
+
+    .view-controls {
+        bottom: 20px;
+        right: 10px;
+        left: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 15px;
+        min-width: auto;
+    }
+
+    .control-group {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .zoom-controls {
+        align-items: flex-start;
+    }
+
+    .drag-hint {
+        display: none;
+    }
+
+    .reset-btn {
+        width: auto;
+        padding: 0 15px;
+        margin-top: 18px;
+    }
+
     .info-panel {
         min-width: 280px;
         max-width: 90vw;
         padding: 20px;
     }
-    
+
     .info-panel h2 {
         font-size: 1.5rem;
     }
@@ -548,14 +755,39 @@ body {
     .orbit-saturn { width: 310px; height: 310px; }
     .orbit-uranus { width: 370px; height: 370px; }
     .orbit-neptune { width: 420px; height: 420px; }
-    
+
     .legend {
         font-size: 0.75rem;
         padding: 8px 15px;
     }
-    
+
     .control-btn {
         padding: 8px 15px;
         font-size: 0.8rem;
+    }
+
+    .view-controls {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .control-label {
+        font-size: 0.7rem;
+    }
+
+    .control-value {
+        font-size: 0.75rem;
+    }
+
+    .view-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+
+    .reset-btn {
+        font-size: 0.75rem;
+        height: 32px;
+        padding: 0 12px;
     }
 }
